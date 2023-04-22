@@ -16,18 +16,28 @@ export class LessonRepository {
     return this.lessonEntityRepository.find().exec();
   }
 
-  getLesson(id: string): Promise<Lesson> {
+  getLesson(id: string): Promise<LessonDocument> {
     return this.lessonEntityRepository.findOne({ id: id }).exec();
   }
 
   async createLesson(createLessonDto: CreateLessonDto): Promise<Lesson> {
-    const { name, startDate, endDate }: CreateLessonDto = createLessonDto;
+    const { name, startDate, endDate, studentsIds }: CreateLessonDto =
+      createLessonDto;
     const lesson: LessonDocument = await this.lessonEntityRepository.create({
       id: uuid(),
       name,
       startDate,
       endDate,
+      students: studentsIds,
     });
+    return lesson.save();
+  }
+
+  assignStudentsToLesson(
+    lesson: LessonDocument,
+    studentsIds: string[],
+  ): Promise<Lesson> {
+    lesson.students = [...lesson.students, ...studentsIds];
     return lesson.save();
   }
 }

@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LessonModule } from './lesson/lesson.module';
+import { StudentModule } from './student/student.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { LessonModule } from './lesson/lesson.module';
     }),
     MongooseModule.forRoot('mongodb://localhost:27017/school-management'),
     LessonModule,
+    StudentModule,
   ],
 })
 export class AppModule {}
